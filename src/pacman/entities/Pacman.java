@@ -31,6 +31,16 @@ public class Pacman {
         this.pacmanImage = newPacmanImage;
     }
 
+    public void setInvincibilityTrue(){
+        this.isInvincible = true;
+    }
+
+    public void setInvincibilityFalse(){
+        this.isInvincible = false;
+    }
+
+
+
     public int getX(){
         return this.x;
     }
@@ -41,5 +51,9 @@ public class Pacman {
 
     public Image getImage(){
         return this.pacmanImage.getImage();
+    }
+
+    public boolean getInvincibility(){
+        return this.isInvincible;
     }
 }

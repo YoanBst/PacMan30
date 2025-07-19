@@ -1,6 +1,6 @@
 package pacman.grille;
 import pacman.entities.*;
-
+import pacman.game.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -12,38 +12,29 @@ import java.awt.Graphics;
 
 public class Plateau  extends JPanel{
     private Pacman pacman;
+    private blueGhost ghostBlue;
+    private redGhost ghostRed;
+    private orangeGhost ghostOrange;
+    private pinkGhost ghostPink;
 	int boardRow;
 	int boardColumn;
 	int caseSize;
 	int boardWidth;
 	int boardHeight;
 	String[] plateauInString = {
-		"XXXXXXXXXXXXXXXXXXX",
-        "X c      X        X",
-        "X XX XXX X XXX XX X",
-        "X                 X",
-        "X XX X XXXXX X XX X",
-        "X    X       X    X",
-        "XXXX XXXX XXXX XXXX",
-        "OOOX X       X XOOO",
-        "XXXX X XXrXX X XXXX",
-        "O       bpo       O",
-        "XXXX X XXXXX X XXXX",
-        "OOOX X       X XOOO",
-        "XXXX X XXXXX X XXXX",
-        "X        X        X",
-        "X XX XXX X XXX XX X",
-        "X  X     P     X  X",
-        "XX X X XXXXX X X XX",
-        "X    X   X   X  c X",
-        "X XXXXXX X XXXXXX X",
-        "X                 X",
-        "XXXXXXXXXXXXXXXXXXX" 
 	};
 	
 
-	public Plateau(Pacman pacman){
+	public Plateau(Pacman pacman, blueGhost ghostBlue, redGhost ghostRed, orangeGhost ghostOrange, 
+            pinkGhost ghostPink, String[] plateauInString){
+
+        this.plateauInString = plateauInString;
         this.pacman = pacman;
+        this.ghostBlue = ghostBlue;
+        this.ghostOrange = ghostOrange;
+        this.ghostPink = ghostPink;
+        this.ghostRed = ghostRed;
+
 		this.boardRow = 21;
 		this.boardColumn = 19;
 		this.caseSize = 30;
@@ -63,7 +54,6 @@ public class Plateau  extends JPanel{
     public void showGrid() {	
 		JFrame frame = new JFrame("Pacman");
 
-
 		frame.setSize(boardWidth, boardHeight);
 		
 		frame.setLocationRelativeTo(null);
@@ -75,6 +65,8 @@ public class Plateau  extends JPanel{
 		frame.setVisible(true);
 
     }
+
+    
 
 	@Override
 	protected void paintComponent(Graphics g){
@@ -91,29 +83,30 @@ public class Plateau  extends JPanel{
                     
                 } else if (c == 'b'){
                     try{
-                        Ghost ghost = new Ghost("blue", new ImageIcon("image/blueGhostRight.png"));
-                        g.drawImage(ghost.getImage(), x, y, caseSize, caseSize, null);
+                    
+                        
+                        g.drawImage(ghostBlue.getImage(), x, y, caseSize, caseSize, null);
                     }catch(Exception e){
                         System.out.println("Erreur : image introuvable");
                     }
                 }else if (c == 'p'){
                     try{
-                        Ghost ghost = new Ghost("pink", new ImageIcon("image/pinkGhostRight.png"));
-                        g.drawImage(ghost.getImage(), x, y, caseSize, caseSize, null);
+                        
+                        g.drawImage(ghostPink.getImage(), x, y, caseSize, caseSize, null);
                     }catch(Exception e){
                         System.out.println("Erreur : image introuvable");
                     }
                 }else if (c == 'o'){
                     try{
-                        Ghost ghost = new Ghost("orange", new ImageIcon("image/orangeGhostRight.png"));
-                        g.drawImage(ghost.getImage(), x, y, caseSize, caseSize, null);
+                        
+                        g.drawImage(ghostOrange.getImage(), x, y, caseSize, caseSize, null);
                     }catch(Exception e){
                         System.out.println("Erreur : image introuvable");
                     }
                 }else if (c == 'r'){
                     try{
-                        Ghost ghost = new Ghost("red", new ImageIcon("image/redGhostRight.png"));
-                        g.drawImage(ghost.getImage(), x, y, caseSize, caseSize, null);
+                        
+                        g.drawImage(ghostRed.getImage(), x, y, caseSize, caseSize, null);
                     }catch(Exception e){
                         System.out.println("Erreur : image introuvable");
                     }
@@ -125,7 +118,7 @@ public class Plateau  extends JPanel{
                     }catch(Exception e){
                         System.out.println("Erreur : image introuvable");
                     }
-                } else if (c == ' '){
+                } else if (c == '.'){
 					Food food = new Food();
 					int foodSize = caseSize / 3;
 					int offset = (caseSize - foodSize) /2;

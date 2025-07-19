@@ -8,15 +8,23 @@ import java.awt.event.KeyEvent;
 import pacman.grille.Plateau;
 public class Game {
     public static void main(String args[]){
+        
         Pacman pacman = new Pacman();
-        Plateau plateau = new Plateau(pacman);
         GameManager gameManager = new GameManager(pacman);
+        Plateau plateau = new Plateau(pacman, gameManager.getGhostBlue(), gameManager.getGhostRed(),
+                gameManager.getGhostOrange(),  gameManager.getGhostPink(),gameManager.getPlateauInString());
+        
 
         plateau.addKeyListener(new KeyAdapter(){
              @Override
             public void keyPressed(KeyEvent e) {
-                gameManager.keyPressed(e);
-                plateau.repaint();
+                
+                if (e.getKeyCode() == KeyEvent.VK_Q){
+                    javax.swing.SwingUtilities.getWindowAncestor(plateau).dispose();
+                }else{
+                    gameManager.keyPressed(e);
+                    plateau.repaint();
+                }
             }
             
         });
