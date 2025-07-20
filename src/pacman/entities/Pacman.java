@@ -39,6 +39,10 @@ public class Pacman {
         this.isInvincible = false;
     }
 
+    public void setDownHP(){
+        this.hp --;
+    }
+
 
 
     public int getX(){
@@ -55,5 +59,9 @@ public class Pacman {
 
     public boolean getInvincibility(){
         return this.isInvincible;
+    }
+
+    public int getHP(){
+        return this.hp;
     }
 }

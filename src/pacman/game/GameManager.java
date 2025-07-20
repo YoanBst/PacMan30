@@ -4,10 +4,11 @@ import java.awt.event.*;
 import java.applet.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.util.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -18,6 +19,7 @@ public class GameManager{
     private redGhost ghostRed;
     private orangeGhost ghostOrange;
     private pinkGhost ghostPink;
+    int score;
     String[] plateauInString = {    //x :  numero ligne
                                     //y : numero colonne
 		    "XXXXXXXXXXXXXXXXXXX",
@@ -46,6 +48,7 @@ public class GameManager{
 
     public GameManager(Pacman pacman){
         this.pacman = pacman;
+        this.score = 0;
         for (int y = 0; y < plateauInString.length; y++){
           for (int x = 0; x< plateauInString[y].length(); x ++){
             char c = plateauInString[y].charAt(x);
@@ -69,6 +72,7 @@ public class GameManager{
       StringBuilder row = new StringBuilder(plateauInString[y]);
       row.setCharAt(x, ' ');
       plateauInString[y] = row.toString();
+      this.score +=10;
     }
       
   }
@@ -80,6 +84,7 @@ public class GameManager{
       StringBuilder row = new StringBuilder(plateauInString[y]);
       row.setCharAt(x, ' ');
       plateauInString[y] = row.toString();
+      this.score +=20;
 
       Timer timer = new Timer();
 
@@ -105,15 +110,28 @@ public class GameManager{
   public void eatGhost(){
     int x = pacman.getX();
     int y = pacman.getY();
-    if( pacman.getInvincibility() && pacman.getX() == ghostBlue.getX() && pacman.getY() == ghostBlue.getY() 
-          && !ghostBlue.getIsEaten()){
-      StringBuilder row = new StringBuilder(plateauInString[y]);
-      row.setCharAt(x, ' ');
-      plateauInString[y] = row.toString();
-      ghostBlue.setIsEatenTrue();
-    }else if (!pacman.getInvincibility() && pacman.getX() == ghostBlue.getX() && pacman.getY() == ghostBlue.getY()
-        && !ghostBlue.getIsEaten()){
-      System.out.println("Perdu !");
+    List<Ghost> listOfGhost = new ArrayList<>();
+      listOfGhost.add(ghostBlue);
+      listOfGhost.add(ghostRed);
+      listOfGhost.add(ghostPink);
+      listOfGhost.add(ghostOrange);
+      
+    for (Ghost ghost : listOfGhost){
+
+        if( pacman.getInvincibility() && pacman.getX() == ghost.getX() && pacman.getY() == ghost.getY() 
+              && !ghost.getIsEaten()){
+          StringBuilder row = new StringBuilder(plateauInString[y]);
+          row.setCharAt(x, ' ');
+          plateauInString[y] = row.toString();
+          ghost.setIsEatenTrue();
+          score+=20;
+        }else if (!pacman.getInvincibility() && pacman.getX() == ghost.getX() && pacman.getY() == ghost.getY()
+            && !ghost.getIsEaten()){
+          System.out.println("Perdu !");
+          System.out.println("Score : " + score);
+          pacman.setDownHP();
+          System.out.println("Vies restantes : " + pacman.getHP());
+        };
     }
   }
 
@@ -125,6 +143,10 @@ public class GameManager{
   public String[] getPlateauInString() {
     return plateauInString;
 }
+
+  public int getScore(){
+    return this.score;
+  }
   
     
   public void keyPressed(KeyEvent e) {
@@ -185,8 +207,10 @@ public class GameManager{
           eatGhost();
         }
    } 
-
-  
-
   }
+
+
+
+
+
 }

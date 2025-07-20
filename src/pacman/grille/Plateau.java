@@ -16,6 +16,7 @@ public class Plateau  extends JPanel{
     private redGhost ghostRed;
     private orangeGhost ghostOrange;
     private pinkGhost ghostPink;
+    private GameManager gameManager;
 	int boardRow;
 	int boardColumn;
 	int caseSize;
@@ -26,7 +27,7 @@ public class Plateau  extends JPanel{
 	
 
 	public Plateau(Pacman pacman, blueGhost ghostBlue, redGhost ghostRed, orangeGhost ghostOrange, 
-            pinkGhost ghostPink, String[] plateauInString){
+            pinkGhost ghostPink, String[] plateauInString, GameManager gameManager){
 
         this.plateauInString = plateauInString;
         this.pacman = pacman;
@@ -34,6 +35,7 @@ public class Plateau  extends JPanel{
         this.ghostOrange = ghostOrange;
         this.ghostPink = ghostPink;
         this.ghostRed = ghostRed;
+        this.gameManager = gameManager;
 
 		this.boardRow = 21;
 		this.boardColumn = 19;
@@ -130,6 +132,33 @@ public class Plateau  extends JPanel{
                 
             }
         }
+        
+    g.setColor(Color.YELLOW);
+    g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
+    g.drawString("Score : " + gameManager.getScore(), 10, 25);
+
+    g.setColor(Color.YELLOW);
+    g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 20));
+    g.drawString("Vies : " + pacman.getHP(), 470, 25);
+
+   
+
+    if (pacman.getHP() <= 0){
+        g.setColor(Color.RED);
+        g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 50));
+        g.drawString("Game Over", 145, 300);
+
+        g.setColor(Color.RED);
+        g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 30));
+        g.drawString("press q to quit" , 190, 380);
+
+        g.setColor(Color.RED);
+        g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 30));
+        g.drawString("press r to play " , 190, 460);
+    }
+    
+
 	}
+
 
 }

@@ -12,7 +12,7 @@ public class Game {
         Pacman pacman = new Pacman();
         GameManager gameManager = new GameManager(pacman);
         Plateau plateau = new Plateau(pacman, gameManager.getGhostBlue(), gameManager.getGhostRed(),
-                gameManager.getGhostOrange(),  gameManager.getGhostPink(),gameManager.getPlateauInString());
+                gameManager.getGhostOrange(),  gameManager.getGhostPink(),gameManager.getPlateauInString(), gameManager);
         
 
         plateau.addKeyListener(new KeyAdapter(){
@@ -21,7 +21,11 @@ public class Game {
                 
                 if (e.getKeyCode() == KeyEvent.VK_Q){
                     javax.swing.SwingUtilities.getWindowAncestor(plateau).dispose();
-                }else{
+                }else if (e.getKeyCode() == KeyEvent.VK_R){
+                   
+                }
+                
+                else if (pacman.getHP() >0){
                     gameManager.keyPressed(e);
                     plateau.repaint();
                 }
