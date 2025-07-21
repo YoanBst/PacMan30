@@ -124,6 +124,7 @@ public class GameManager{
           row.setCharAt(x, ' ');
           plateauInString[y] = row.toString();
           ghost.setIsEatenTrue();
+          pacman.setUpGhostEaten();
           score+=20;
         }else if (!pacman.getInvincibility() && pacman.getX() == ghost.getX() && pacman.getY() == ghost.getY()
             && !ghost.getIsEaten()){

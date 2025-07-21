@@ -51,6 +51,14 @@ public class Plateau  extends JPanel{
         return this.pacman;
     }
 
+    public int getBoardWidth(){
+        return this.boardWidth;
+    }
+
+    public int getBoardHeight(){
+        return this.boardHeight;
+    }
+
 
     
     public void showGrid() {	
@@ -147,6 +155,18 @@ public class Plateau  extends JPanel{
         g.setColor(Color.RED);
         g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 50));
         g.drawString("Game Over", 145, 300);
+
+        g.setColor(Color.RED);
+        g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 30));
+        g.drawString("press q to quit" , 190, 380);
+
+        g.setColor(Color.RED);
+        g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 30));
+        g.drawString("press r to play " , 190, 460);
+    }else if (pacman.getHP()>0 && pacman.getGhostEaten() == 4){
+        g.setColor(Color.RED);
+        g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 50));
+        g.drawString("You win", 200, 300);
 
         g.setColor(Color.RED);
         g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 30));

@@ -5,6 +5,7 @@ import java.awt.Image;
 
 public class Pacman {
     private int hp;
+    private int ghostEaten;
     private int x;
     private int y;
     private ImageIcon pacmanImage;
@@ -13,6 +14,7 @@ public class Pacman {
 
     public Pacman(){
         this.hp = 3;
+        this.ghostEaten = 0;
         this.pacmanImage = new ImageIcon("image/pacmanRight.png");
         this.isInvincible = false;
         this.x = 9;
@@ -43,6 +45,10 @@ public class Pacman {
         this.hp --;
     }
 
+    public void setUpGhostEaten(){
+        this.ghostEaten ++;
+    }
+
 
 
     public int getX(){
@@ -63,5 +69,8 @@ public class Pacman {
 
     public int getHP(){
         return this.hp;
+    }
+    public int getGhostEaten(){
+        return this.ghostEaten;
     }
 }
