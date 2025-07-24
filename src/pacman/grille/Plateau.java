@@ -91,35 +91,7 @@ public class Plateau  extends JPanel{
                     Wall wall = new Wall();
                     g.drawImage(wall.getImage(), x, y, caseSize, caseSize, null);
                     
-                } else if (c == 'b'){
-                    try{
-                    
-                        
-                        g.drawImage(ghostBlue.getImage(), x, y, caseSize, caseSize, null);
-                    }catch(Exception e){
-                        System.out.println("Erreur : image introuvable");
-                    }
-                }else if (c == 'p'){
-                    try{
-                        
-                        g.drawImage(ghostPink.getImage(), x, y, caseSize, caseSize, null);
-                    }catch(Exception e){
-                        System.out.println("Erreur : image introuvable");
-                    }
-                }else if (c == 'o'){
-                    try{
-                        
-                        g.drawImage(ghostOrange.getImage(), x, y, caseSize, caseSize, null);
-                    }catch(Exception e){
-                        System.out.println("Erreur : image introuvable");
-                    }
-                }else if (c == 'r'){
-                    try{
-                        
-                        g.drawImage(ghostRed.getImage(), x, y, caseSize, caseSize, null);
-                    }catch(Exception e){
-                        System.out.println("Erreur : image introuvable");
-                    }
+                
 
                 }else if (c == 'c'){
                     try{
@@ -136,7 +108,20 @@ public class Plateau  extends JPanel{
 				}
                 int pacX = pacman.getX() * caseSize;
                 int pacY = pacman.getY() * caseSize;
+
                 g.drawImage(pacman.getImage(), pacX, pacY, caseSize, caseSize, null);
+                if (!ghostBlue.getIsEaten()) {
+                    g.drawImage(ghostBlue.getImage(), ghostBlue.getX() * caseSize, ghostBlue.getY() * caseSize, caseSize, caseSize, null);
+                }
+                if (!ghostRed.getIsEaten()) {
+                    g.drawImage(ghostRed.getImage(), ghostRed.getX() * caseSize, ghostRed.getY() * caseSize, caseSize, caseSize, null);
+                }
+                if (!ghostOrange.getIsEaten()) {
+                    g.drawImage(ghostOrange.getImage(), ghostOrange.getX() * caseSize, ghostOrange.getY() * caseSize, caseSize, caseSize, null);
+                }
+                if (!ghostPink.getIsEaten()) {
+                    g.drawImage(ghostPink.getImage(), ghostPink.getX() * caseSize, ghostPink.getY() * caseSize, caseSize, caseSize, null);
+                }
                 
             }
         }

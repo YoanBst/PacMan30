@@ -8,30 +8,28 @@ import java.util.*;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 public class GameManager{
     private Pacman pacman;
+    private EnumDirection enumDirection;
     private blueGhost ghostBlue;
     private redGhost ghostRed;
     private orangeGhost ghostOrange;
     private pinkGhost ghostPink;
+    private int invincibilityTicks = 0;
     int score;
     String[] plateauInString = {    //x :  numero ligne
                                     //y : numero colonne
 		    "XXXXXXXXXXXXXXXXXXX",
         "X.c......X........X",
         "X.XX.XXX.X.XXX.XX.X",
-        "X.................X",
+        "X....b............X",
         "X.XX.X.XXXXX.X.XX.X",
-        "X....X.......X....X",
+        "X....X.......X...cX",
         "XXXX.XXXX.XXXX.XXXX",
         "OOOX.X.......X.XOOO",
         "XXXX.X.XXrXX.X.XXXX",
-        "O.......bpo.......O",
+        "O........o.....p..O",
         "XXXX.X.XXXXX.X.XXXX",
         "OOOX.X.......X.XOOO",
         "XXXX.X.XXXXX.X.XXXX",
@@ -39,15 +37,16 @@ public class GameManager{
         "X.XX.XXX.X.XXX.XX.X",
         "X..X.....P.....X..X",
         "XX.X.X.XXXXX.X.X.XX",
-        "X....X...X...X..c.X",
+        "Xc...X...X...X..c.X",
         "X.XXXXXX.X.XXXXXX.X",
-        "X.................X",
+        "X...r.............X",
         "XXXXXXXXXXXXXXXXXXX" 
 	};
 
 
-    public GameManager(Pacman pacman){
+    public GameManager(Pacman pacman, EnumDirection enumDirection){
         this.pacman = pacman;
+        this.enumDirection = enumDirection;
         this.score = 0;
         for (int y = 0; y < plateauInString.length; y++){
           for (int x = 0; x< plateauInString[y].length(); x ++){
@@ -86,26 +85,27 @@ public class GameManager{
       plateauInString[y] = row.toString();
       this.score +=20;
 
-      Timer timer = new Timer();
-
-
       pacman.setInvincibilityTrue();
       this.ghostBlue.setImageInvincible();
       this.ghostOrange.setImageInvincible();
       this.ghostPink.setImageInvincible();
       this.ghostRed.setImageInvincible();
-      timer.schedule(new TimerTask() {
-      @Override
-        public void run() {
-            pacman.setInvincibilityFalse();
-            ghostBlue.setInitialImage();
-            ghostRed.setInitialImage();
-            ghostPink.setInitialImage();
-            ghostOrange.setInitialImage();
-        }
-    }, 7500);
+      invincibilityTicks = 15;
     }
   };
+
+  public void updateInvincibility() {
+    if (invincibilityTicks > 0) {
+        invincibilityTicks--;
+        if (invincibilityTicks == 0) {
+            pacman.setInvincibilityFalse();
+            ghostBlue.setInitialImage();
+            ghostOrange.setInitialImage();
+            ghostPink.setInitialImage();
+            ghostRed.setInitialImage();
+        }
+    }
+}
 
   public void eatGhost(){
     int x = pacman.getX();
@@ -136,10 +136,43 @@ public class GameManager{
     }
   }
 
+  public void moveGhost(){
+    Ghost[] ghosts = {ghostBlue, ghostOrange, ghostPink, ghostRed};
+    
+    
+
+    for(Ghost ghost : ghosts){
+      Direction direction = enumDirection.randomDirection();
+      int x = ghost.getX();
+      int y = ghost.getY();
+      int newX = x;
+      int newY = y;
+
+      switch (direction){
+        case HAUT: newY = y - 1; break;
+        case BAS : newY = y + 1; break;
+        case GAUCHE : newX = x -1; break;
+        case DROITE : newX = x + 1; break;
+      }
+
+      if (newY >=0 && newY < plateauInString.length && newX >=0 && newX < plateauInString[0].length() 
+          && plateauInString[newY].charAt(newX) != 'X' && !ghost.getIsEaten()){
+
+            ghost.setX(newX);
+            ghost.setY(newY);
+
+      }
+    }
+  };
+
+
+
   public blueGhost getGhostBlue() { return ghostBlue; }
   public redGhost getGhostRed() { return ghostRed; }
   public orangeGhost getGhostOrange() { return ghostOrange; }
   public pinkGhost getGhostPink() { return ghostPink; }
+
+  public Pacman getPacman(){return this.pacman;}
 
   public String[] getPlateauInString() {
     return plateauInString;
@@ -164,6 +197,7 @@ public class GameManager{
         eatCherry();
         eatGhost();
         
+        
       }
     }
     else if (keyCode == KeyEvent.VK_DOWN) {
@@ -174,7 +208,10 @@ public class GameManager{
         pacman.setY(pacman.getY() + 1);
         removeBonbon();
         eatCherry();
-        eatGhost();
+        
+        
+       
+        
         
       }
     }
@@ -189,7 +226,9 @@ public class GameManager{
         pacman.setX(pacman.getX() - 1);
         removeBonbon();
         eatCherry();
-        eatGhost();
+        
+        
+        
       }
       
     }
@@ -205,7 +244,9 @@ public class GameManager{
           pacman.setX(pacman.getX() + 1);
           removeBonbon();
           eatCherry();
-          eatGhost();
+          
+          
+        
         }
    } 
   }
